@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group = 'sovanvirak.vean'
@@ -10,11 +11,32 @@ repositories {
 }
 
 dependencies {
+    def qtjambiVersion = "6.10.2"  // ✅ matches Homebrew Qt 6.10.2 exactly!
+
+    implementation "io.qtjambi:qtjambi:${qtjambiVersion}"
+    implementation "io.qtjambi:qtjambi-native-macos:${qtjambiVersion}"
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-test {
-    useJUnitPlatform()
+application {
+    mainClass = 'sovanvirak.vean.MainWindow'
+}
+
+run {
+    jvmArgs += "--enable-native-access=ALL-UNNAMED"
+    systemProperty "java.library.path", "/opt/homebrew/opt/qt/lib"  // ✅ Homebrew arm64 path
+    environment "DYLD_FRAMEWORK_PATH", "/opt/homebrew/opt/qt/lib"
+    environment "DYLD_LIBRARY_PATH", "/opt/homebrew/opt/qt/lib"
+
+    jvmArgs += "--enable-native-access=ALL-UNNAMED"
+    jvmArgs += "-XstartOnFirstThread"  // ✅ required for Qt on macOS
+    systemProperty "java.library.path", "/opt/homebrew/opt/qt/lib"
+    environment "DYLD_FRAMEWORK_PATH", "/opt/homebrew/opt/qt/lib"
+    environment "DYLD_LIBRARY_PATH", "/opt/homebrew/opt/qt/lib"
+}
+
+tasks.withType(JavaExec).configureEach {
+    jvmArgs += "--enable-native-access=ALL-UNNAMED"
 }
