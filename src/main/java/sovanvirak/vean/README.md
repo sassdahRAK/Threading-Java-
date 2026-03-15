@@ -34,3 +34,11 @@
 >>2. 500,000+ -------------->Multi-thread (parallel work dominates)
 >
 >>3. 1,000,000+ ----------->Multi-thread wins clearly
+
+## file structure
+> sovanvirak.vean/ <br>
+>├── Main.java          → entry point only  <br>
+>├── MainWindow.java    → UI only <br>
+>├── MultiThread.java   → multithreaded sorting logic <br>
+>├── SingleThread.java  → single-threaded sorting logic <br>
+>└── Utils.java         → CSV read/write only <br>

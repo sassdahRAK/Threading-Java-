@@ -40,3 +40,10 @@ run {
 tasks.withType(JavaExec).configureEach {
     jvmArgs += "--enable-native-access=ALL-UNNAMED"
 }
+sourceSets {
+    main {
+        java {
+            srcDirs += '/Users/mac/Desktop/data-set-threading'
+        }
+    }
+}
